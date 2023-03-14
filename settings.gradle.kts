@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "TrendingRepositories"
-include ':app'
+include(":app")
