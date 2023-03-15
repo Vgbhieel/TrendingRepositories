@@ -9,7 +9,7 @@ object Dependencies {
         const val composeUi = "androidx.compose.ui:ui:${Versions.Android.compose}"
         const val composePreview =
             "androidx.compose.ui:ui-tooling-preview:${Versions.Android.compose}"
-        const val material = "androidx.compose.material:material:${Versions.Android.compose}"
+        const val material = "androidx.compose.material3:material3:${Versions.Android.material}"
     }
 
     object Test {
