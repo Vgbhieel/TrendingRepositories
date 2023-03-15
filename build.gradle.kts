@@ -1,5 +1,20 @@
 plugins {
-    id("com.android.application") version "7.4.2" apply false
-    id("com.android.library") version "7.4.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.7.0" apply false
+    id(Plugins.androidApplication) version Versions.Plugins.androidApplication apply false
+    id(Plugins.androidLibrary) version Versions.Plugins.androidLibrary apply false
+    id(Plugins.kotlinAndroid) version Versions.Plugins.kotlinAndroid apply false
+    id(Plugins.detekt) version Versions.Plugins.detekt
+}
+
+subprojects {
+    apply {
+        plugin(Plugins.detekt)
+    }
+
+    detekt {
+        config = rootProject.files("config/detekt/detekt.yml")
+    }
+
+    dependencies {
+        detektPlugins(Dependencies.ThirdParty.detektFormatting)
+    }
 }

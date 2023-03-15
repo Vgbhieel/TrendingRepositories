@@ -28,4 +28,8 @@ object Dependencies {
         const val composeUiTestManifest =
             "androidx.compose.ui:ui-test-manifest:${Versions.Android.compose}"
     }
+
+    object ThirdParty {
+       const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugins.detekt}"
+    }
 }
