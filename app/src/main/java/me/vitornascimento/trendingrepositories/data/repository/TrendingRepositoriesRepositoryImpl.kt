@@ -65,7 +65,7 @@ class TrendingRepositoriesRepositoryImpl(
         val cacheTimeout: Long = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
         val createdAtFromFirstInCache: Long = cache.firstOrNull()?.createdAt ?: 0
 
-        return System.currentTimeMillis() - createdAtFromFirstInCache < cacheTimeout
+        return System.currentTimeMillis() - createdAtFromFirstInCache > cacheTimeout
     }
 
     private suspend fun getTrendingRepositories(page: Int): List<TrendingRepository> {
