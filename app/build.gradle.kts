@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -66,6 +67,9 @@ dependencies {
     implementation(Dependencies.ThirdParty.retrofit)
     implementation(Dependencies.ThirdParty.retrofitGson)
     implementation(Dependencies.ThirdParty.okhttp3LoggingInterceptor)
+    implementation(Dependencies.Android.room)
+    implementation(Dependencies.Android.roomKtx)
+    kapt(Dependencies.Android.roomCompiler)
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)

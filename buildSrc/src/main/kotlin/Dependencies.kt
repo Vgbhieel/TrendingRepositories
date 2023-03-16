@@ -10,6 +10,9 @@ object Dependencies {
         const val composePreview =
             "androidx.compose.ui:ui-tooling-preview:${Versions.Android.compose}"
         const val material = "androidx.compose.material3:material3:${Versions.Android.material}"
+        const val room = "androidx.room:room-runtime:${Versions.Android.room}"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.Android.room}"
+        const val roomCompiler = "androidx.room:room-compiler:${Versions.Android.room}"
     }
 
     object Test {

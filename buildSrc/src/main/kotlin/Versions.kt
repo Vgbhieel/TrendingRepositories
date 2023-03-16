@@ -6,6 +6,7 @@ object Versions {
         const val activityCompose = "1.3.1"
         const val compose = "1.2.0"
         const val material = "1.0.1"
+        const val room = "2.5.0"
     }
 
     object Test {
