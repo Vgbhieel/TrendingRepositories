@@ -19,8 +19,9 @@ import me.vitornascimento.trendingrepositories.domain.model.Result
 import me.vitornascimento.trendingrepositories.domain.model.Success
 import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class TrendingRepositoriesRepositoryImpl(
+class TrendingRepositoriesRepositoryImpl @Inject constructor(
     private val trendingRepositoriesDao: TrendingRepositoriesDao,
     private val service: GithubService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
