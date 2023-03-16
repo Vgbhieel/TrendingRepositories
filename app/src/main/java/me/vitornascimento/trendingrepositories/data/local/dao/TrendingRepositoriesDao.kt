@@ -14,9 +14,6 @@ interface TrendingRepositoriesDao {
     @Query("SELECT * FROM trending_repositories ORDER BY stars_count DESC")
     suspend fun getTrendingRepositories(): List<TrendingRepositoryEntity>
 
-    @Query("SELECT * FROM trending_repositories WHERE page = :page ORDER BY stars_count DESC")
-    suspend fun getTrendingRepositoriesForPage(page: Int): List<TrendingRepositoryEntity>
-
     @Query("DELETE FROM trending_repositories")
     suspend fun clearAllTrendingRepositories()
 }
