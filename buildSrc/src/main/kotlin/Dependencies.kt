@@ -31,5 +31,8 @@ object Dependencies {
 
     object ThirdParty {
        const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugins.detekt}"
+       const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.ThirdParty.retrofit}"
+       const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.ThirdParty.retrofit}"
+       const val okhttp3LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.ThirdParty.okhttp3LoggingInterceptor}"
     }
 }

@@ -23,4 +23,9 @@ object Versions {
         const val kotlinAndroid = "1.7.0"
         const val detekt = "1.22.0"
     }
+
+    object ThirdParty {
+        const val retrofit = "2.9.0"
+        const val okhttp3LoggingInterceptor = "4.10.0"
+    }
 }

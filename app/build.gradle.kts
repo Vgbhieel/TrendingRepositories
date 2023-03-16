@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -18,6 +20,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val gitHubToken: String = gradleLocalProperties(rootDir).getProperty("GITHUB_TOKEN")
+        buildConfigField("String", "GITHUB_TOKEN", gitHubToken)
     }
 
     buildTypes {
@@ -58,6 +63,9 @@ dependencies {
     implementation(Dependencies.Android.composeUi)
     implementation(Dependencies.Android.composePreview)
     implementation(Dependencies.Android.material)
+    implementation(Dependencies.ThirdParty.retrofit)
+    implementation(Dependencies.ThirdParty.retrofitGson)
+    implementation(Dependencies.ThirdParty.okhttp3LoggingInterceptor)
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)
