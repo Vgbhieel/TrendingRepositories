@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -70,6 +71,8 @@ dependencies {
     implementation(Dependencies.Android.room)
     implementation(Dependencies.Android.roomKtx)
     kapt(Dependencies.Android.roomCompiler)
+    implementation(Dependencies.Android.hilt)
+    kapt(Dependencies.Android.hiltCompiler)
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)

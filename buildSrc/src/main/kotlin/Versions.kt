@@ -7,6 +7,7 @@ object Versions {
         const val compose = "1.2.0"
         const val material = "1.0.1"
         const val room = "2.5.0"
+        const val hilt = "2.44"
     }
 
     object Test {
@@ -23,6 +24,7 @@ object Versions {
         const val androidLibrary = "7.4.2"
         const val kotlinAndroid = "1.7.0"
         const val detekt = "1.22.0"
+        const val hilt = "2.44"
     }
 
     object ThirdParty {
