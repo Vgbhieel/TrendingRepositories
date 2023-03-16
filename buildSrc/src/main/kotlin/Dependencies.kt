@@ -13,6 +13,8 @@ object Dependencies {
         const val room = "androidx.room:room-runtime:${Versions.Android.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.Android.room}"
         const val roomCompiler = "androidx.room:room-compiler:${Versions.Android.room}"
+        const val hilt = "com.google.dagger:hilt-android:${Versions.Android.hilt}"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.Android.hilt}"
     }
 
     object Test {
