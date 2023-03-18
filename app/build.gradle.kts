@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
 
     implementation(Dependencies.Android.coreKtx)
     implementation(Dependencies.Android.lifecycleRuntimeKtx)
+    implementation(Dependencies.Android.lifecycleViewModelCompose)
     implementation(Dependencies.Android.activityCompose)
     implementation(Dependencies.Android.composeUi)
     implementation(Dependencies.Android.composePreview)
@@ -73,6 +75,7 @@ dependencies {
     kapt(Dependencies.Android.roomCompiler)
     implementation(Dependencies.Android.hilt)
     kapt(Dependencies.Android.hiltCompiler)
+    implementation(Dependencies.ThirdParty.coilCompose)
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)

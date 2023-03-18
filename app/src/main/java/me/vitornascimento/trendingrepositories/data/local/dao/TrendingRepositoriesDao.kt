@@ -14,6 +14,9 @@ interface TrendingRepositoriesDao {
     @Query("SELECT * FROM trending_repositories ORDER BY stars_count DESC")
     suspend fun getTrendingRepositories(): List<TrendingRepositoryEntity>
 
+    @Query("SELECT page FROM trending_repositories ORDER BY stars_count LIMIT 1")
+    suspend fun getLastPageLoaded(): Int?
+
     @Query("DELETE FROM trending_repositories")
     suspend fun clearAllTrendingRepositories()
 }
