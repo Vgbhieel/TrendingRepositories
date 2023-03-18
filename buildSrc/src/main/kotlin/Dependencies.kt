@@ -3,7 +3,9 @@ object Dependencies {
     object Android {
         const val coreKtx = "androidx.core:core-ktx:${Versions.Android.coreKtx}"
         const val lifecycleRuntimeKtx =
-            "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycleRuntimeKtx}"
+            "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}"
+        const val lifecycleViewModelCompose =
+            "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.Android.lifecycle}"
         const val activityCompose =
             "androidx.activity:activity-compose:${Versions.Android.activityCompose}"
         const val composeUi = "androidx.compose.ui:ui:${Versions.Android.compose}"
@@ -35,9 +37,13 @@ object Dependencies {
     }
 
     object ThirdParty {
-       const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugins.detekt}"
-       const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.ThirdParty.retrofit}"
-       const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.ThirdParty.retrofit}"
-       const val okhttp3LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.ThirdParty.okhttp3LoggingInterceptor}"
+        const val detektFormatting =
+            "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugins.detekt}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.ThirdParty.retrofit}"
+        const val retrofitGson =
+            "com.squareup.retrofit2:converter-gson:${Versions.ThirdParty.retrofit}"
+        const val okhttp3LoggingInterceptor =
+            "com.squareup.okhttp3:logging-interceptor:${Versions.ThirdParty.okhttp3LoggingInterceptor}"
+        const val coilCompose = "io.coil-kt:coil-compose:${Versions.ThirdParty.coilCompose}"
     }
 }

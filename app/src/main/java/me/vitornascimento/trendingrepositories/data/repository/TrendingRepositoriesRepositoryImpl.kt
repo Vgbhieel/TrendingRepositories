@@ -11,13 +11,13 @@ import me.vitornascimento.trendingrepositories.data.local.entity.TrendingReposit
 import me.vitornascimento.trendingrepositories.data.mapper.toDomainModel
 import me.vitornascimento.trendingrepositories.data.mapper.toEntityModelList
 import me.vitornascimento.trendingrepositories.data.remote.GithubService
-import me.vitornascimento.trendingrepositories.domain.FIRST_PAGINATION
-import me.vitornascimento.trendingrepositories.domain.TrendingRepositoriesRepository
 import me.vitornascimento.trendingrepositories.domain.model.EndOfPaginationException
 import me.vitornascimento.trendingrepositories.domain.model.Failure
 import me.vitornascimento.trendingrepositories.domain.model.Result
 import me.vitornascimento.trendingrepositories.domain.model.Success
 import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
+import me.vitornascimento.trendingrepositories.domain.repository.FIRST_PAGINATION
+import me.vitornascimento.trendingrepositories.domain.repository.TrendingRepositoriesRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,14 +26,21 @@ class TrendingRepositoriesRepositoryImpl @Inject constructor(
     private val service: GithubService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : TrendingRepositoriesRepository {
+    override suspend fun getLastLoadedPage(): Int {
+        return trendingRepositoriesDao.getLastPageLoaded() ?: 0
+    }
 
     override fun getTrendingRepositoriesForPage(page: Int): Flow<Result<List<TrendingRepository>>> =
         flow<Result<List<TrendingRepository>>> {
-            val cachedTrendingRepositories = trendingRepositoriesDao.getTrendingRepositories()
-
-            if (page == FIRST_PAGINATION && cacheIsOutOfDate(cachedTrendingRepositories)) {
-                trendingRepositoriesDao.clearAllTrendingRepositories()
-            }
+            val cachedTrendingRepositories: List<TrendingRepositoryEntity> =
+                trendingRepositoriesDao.getTrendingRepositories().let {
+                    if (page == FIRST_PAGINATION && cacheIsOutOfDate(it)) {
+                        trendingRepositoriesDao.clearAllTrendingRepositories()
+                        emptyList()
+                    } else {
+                        it
+                    }
+                }
 
             if (
                 page == FIRST_PAGINATION &&

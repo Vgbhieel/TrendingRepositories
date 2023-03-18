@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import me.vitornascimento.trendingrepositories.data.repository.TrendingRepositoriesRepositoryImpl
-import me.vitornascimento.trendingrepositories.domain.TrendingRepositoriesRepository
+import me.vitornascimento.trendingrepositories.domain.repository.TrendingRepositoriesRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
