@@ -87,7 +87,7 @@ class TrendingRepositoriesViewModel @Inject constructor(
         }
     }
 
-    private companion object {
+    companion object {
         const val UI_STATE_KEY = "ui_state"
     }
 }
