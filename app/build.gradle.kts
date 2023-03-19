@@ -77,6 +77,8 @@ dependencies {
     kapt(Dependencies.Android.hiltCompiler)
     implementation(Dependencies.ThirdParty.coilCompose)
     testImplementation(Dependencies.Test.junit)
+    testImplementation(Dependencies.Test.mockk)
+    testImplementation(Dependencies.Test.coroutines)
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)
     androidTestImplementation(Dependencies.AndroidTest.composeJunit)

@@ -43,7 +43,7 @@ console-reports:
 
 output-reports:
   active: true
-  exclude:
+  # exclude:
   # - 'TxtOutputReport'
   # - 'XmlOutputReport'
   # - 'HtmlOutputReport'
@@ -597,6 +597,7 @@ style:
     excludeImportStatements: true
     excludeCommentStatements: false
     excludeRawStrings: true
+    ignoreAnnotated: ['Test']
   MayBeConst:
     active: true
   ModifierOrder:
