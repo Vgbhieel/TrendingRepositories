@@ -15,6 +15,7 @@ import me.vitornascimento.trendingrepositories.domain.model.EndOfPaginationExcep
 import me.vitornascimento.trendingrepositories.domain.model.Failure
 import me.vitornascimento.trendingrepositories.domain.model.Result
 import me.vitornascimento.trendingrepositories.domain.model.Success
+import me.vitornascimento.trendingrepositories.domain.model.TimeProvider
 import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
 import me.vitornascimento.trendingrepositories.domain.repository.FIRST_PAGINATION
 import me.vitornascimento.trendingrepositories.domain.repository.TrendingRepositoriesRepository
@@ -73,7 +74,7 @@ class TrendingRepositoriesRepositoryImpl @Inject constructor(
         val cacheTimeout: Long = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
         val createdAtFromFirstInCache: Long = cache.firstOrNull()?.createdAt ?: 0
 
-        return System.currentTimeMillis() - createdAtFromFirstInCache > cacheTimeout
+        return TimeProvider.nowInMillis() - createdAtFromFirstInCache > cacheTimeout
     }
 
     private suspend fun getTrendingRepositories(page: Int): List<TrendingRepository> {
