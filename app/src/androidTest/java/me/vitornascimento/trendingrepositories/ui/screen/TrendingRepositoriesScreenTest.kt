@@ -2,11 +2,15 @@ package me.vitornascimento.trendingrepositories.ui.screen
 
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeDown
+import androidx.compose.ui.test.swipeUp
 import io.mockk.mockk
 import io.mockk.verify
 import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
@@ -18,6 +22,7 @@ import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreen
 import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.PAGINATION_LOADING
 import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.RETRY_BUTTON
 import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.TRENDING_REPOSITORIES_LIST
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesTopAppBarTags
 import me.vitornascimento.trendingrepositories.ui.theme.TrendingRepositoriesTheme
 import org.junit.Rule
 import org.junit.Test
@@ -70,6 +75,62 @@ class TrendingRepositoriesScreenTest {
         composeTestRule.onNodeWithTag(TRENDING_REPOSITORIES_LIST).performScrollToIndex(lastIndex)
 
         verify { doPagination.invoke() }
+    }
+
+    @Test
+    fun whenScreenStartedShouldShowTopAppBar() {
+        val uiState = TrendingRepositoriesScreenState(
+            emptyList(),
+            PaginationStatus.IDLE
+        )
+
+        initScreen(uiState = uiState)
+
+        composeTestRule.onNodeWithTag(TrendingRepositoriesTopAppBarTags.CONTENT)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun givenScrollAvailableWhenScrollingToEndOfListShouldNotShowTopAppBar() {
+        val numberOfTrendingRepositories = 20
+        val uiState = TrendingRepositoriesScreenState(
+            List(numberOfTrendingRepositories) { trendingRepositoryMock },
+            PaginationStatus.IDLE
+        )
+
+        initScreen(uiState = uiState)
+
+        composeTestRule.onNodeWithTag(TRENDING_REPOSITORIES_LIST).performTouchInput {
+            this.swipeUp()
+        }
+
+        composeTestRule.onNodeWithTag(TrendingRepositoriesTopAppBarTags.CONTENT)
+            .assertIsNotDisplayed()
+    }
+
+    @Test
+    fun givenScrollAvailableWhenScrollingToEndOfListAndScrollingToTopOfItThenShouldShowTopAppBarAgain() {
+        val numberOfTrendingRepositories = 20
+        val uiState = TrendingRepositoriesScreenState(
+            List(numberOfTrendingRepositories) { trendingRepositoryMock },
+            PaginationStatus.IDLE
+        )
+
+        initScreen(uiState = uiState)
+
+        composeTestRule.onNodeWithTag(TRENDING_REPOSITORIES_LIST).performTouchInput {
+            this.swipeUp()
+        }
+
+        composeTestRule.onNodeWithTag(TrendingRepositoriesTopAppBarTags.CONTENT)
+            .assertIsNotDisplayed()
+
+        composeTestRule.onNodeWithTag(TRENDING_REPOSITORIES_LIST).performTouchInput {
+            this.swipeDown()
+        }
+
+        composeTestRule.onNodeWithTag(TrendingRepositoriesTopAppBarTags.CONTENT)
+            .assertIsDisplayed()
     }
 
     @Test
