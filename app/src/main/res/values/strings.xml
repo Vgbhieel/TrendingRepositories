@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TrendingRepositories</string>
+    <string name="app_name">Trending Repositories</string>
+    <string name="repository_name">Name: %s</string>
+    <string name="repository_author">Author: %s</string>
+    <string name="generic_error_message">Ops, something went wrong, please try again.</string>
+    <string name="retry">Retry</string>
 </resources>
