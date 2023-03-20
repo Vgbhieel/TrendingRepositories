@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import me.vitornascimento.trendingrepositories.R
+import me.vitornascimento.trendingrepositories.ui.tag.OwnerAvatarTags
 import me.vitornascimento.trendingrepositories.ui.tag.RepositoryStatsTags
 import me.vitornascimento.trendingrepositories.ui.theme.TrendingRepositoriesTheme
 import org.junit.Rule
@@ -43,6 +44,13 @@ class RepositoryCardTest {
         initScreen()
 
         composeTestRule.onNodeWithTag(RepositoryStatsTags.CONTENT).assertIsDisplayed()
+    }
+
+    @Test
+    fun whenComponentStartedVerifyOwnerAvatarIsDisplayed() {
+        initScreen()
+
+        composeTestRule.onNodeWithTag(OwnerAvatarTags.CONTENT).assertIsDisplayed()
     }
 
     private fun initScreen(
