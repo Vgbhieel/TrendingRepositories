@@ -53,7 +53,20 @@ android {
     }
     packagingOptions {
         resources {
-            resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            resources.excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE*}"
+        }
+    }
+
+    /**
+     * Need it to make mockk work in UI tests.
+     *
+     * See [mockk issue](https://github.com/mockk/mockk/issues/297) for more information.
+     */
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
         }
     }
 }
@@ -82,6 +95,7 @@ dependencies {
     androidTestImplementation(Dependencies.AndroidTest.androidJunitExt)
     androidTestImplementation(Dependencies.AndroidTest.espresso)
     androidTestImplementation(Dependencies.AndroidTest.composeJunit)
+    androidTestImplementation(Dependencies.AndroidTest.mockk)
     debugImplementation(Dependencies.Debug.composeUiTooling)
     debugImplementation(Dependencies.Debug.composeUiTestManifest)
 }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import me.vitornascimento.trendingrepositories.R
 import me.vitornascimento.trendingrepositories.ui.modifier.shimmer
+import me.vitornascimento.trendingrepositories.ui.tag.OwnerAvatarTags.CONTENT
 
 @Composable
 fun OwnerAvatar(
@@ -33,6 +35,8 @@ fun OwnerAvatar(
 ) {
     Box(
         contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .testTag(CONTENT),
     ) {
         var retryHash by remember { mutableStateOf(0) }
         val painter =
