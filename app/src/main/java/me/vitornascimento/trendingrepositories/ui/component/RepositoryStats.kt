@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.vitornascimento.trendingrepositories.R
+import me.vitornascimento.trendingrepositories.ui.tag.RepositoryStatsTags.CONTENT
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -29,6 +31,7 @@ fun RepositoryStats(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
+            .testTag(CONTENT),
     ) {
 
         Icon(
