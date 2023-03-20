@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.vitornascimento.trendingrepositories.R
 import me.vitornascimento.trendingrepositories.ui.tag.RepositoryStatsTags.CONTENT
+import me.vitornascimento.trendingrepositories.ui.tag.RepositoryStatsTags.FORK_ICON
+import me.vitornascimento.trendingrepositories.ui.tag.RepositoryStatsTags.STAR_ICON
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -37,6 +39,8 @@ fun RepositoryStats(
         Icon(
             painter = painterResource(id = R.drawable.ic_star),
             contentDescription = null,
+            modifier = Modifier
+                .testTag(STAR_ICON),
         )
         Text(
             text = pluralStringResource(id = R.plurals.repository_stars, starsCount, starsCount),
@@ -52,6 +56,8 @@ fun RepositoryStats(
         Icon(
             painter = painterResource(id = R.drawable.ic_fork),
             contentDescription = null,
+            modifier = Modifier
+                .testTag(FORK_ICON),
         )
         Text(
             text = pluralStringResource(id = R.plurals.repository_forks, forksCount, forksCount),
