@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,13 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import me.vitornascimento.trendingrepositories.R
+import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
 import me.vitornascimento.trendingrepositories.ui.component.RepositoryCard
 import me.vitornascimento.trendingrepositories.ui.component.RepositoryCardLoading
 import me.vitornascimento.trendingrepositories.ui.component.TrendingRepositoriesTopAppBar
 import me.vitornascimento.trendingrepositories.ui.theme.TrendingRepositoriesTheme
-import me.vitornascimento.trendingrepositories.ui.viewmodel.TrendingRepositoriesViewModel
 
 private const val DEFAULT_LAST_INDEX = -2
 private const val DEFAULT_PAGINATION_DECREMENT = 2
@@ -43,86 +41,85 @@ private const val CONTENT_LOADING_REPEAT_TIMES = 20
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrendingRepositoriesScreen() {
-    TrendingRepositoriesTheme {
-        val viewModel: TrendingRepositoriesViewModel = viewModel()
-        val uiState = viewModel.uiState.collectAsState()
-        val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-        val lazyColumnListState = rememberLazyListState()
-        val shouldStartPaginate = remember {
-            derivedStateOf {
-                (lazyColumnListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
-                    ?: DEFAULT_LAST_INDEX) >= (lazyColumnListState.layoutInfo.totalItemsCount
-                        - DEFAULT_PAGINATION_DECREMENT)
-            }
+fun TrendingRepositoriesScreen(
+    uiState: TrendingRepositoriesScreenState,
+    doPagination: () -> Unit,
+) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val lazyColumnListState = rememberLazyListState()
+    val shouldStartPaginate = remember {
+        derivedStateOf {
+            (lazyColumnListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                ?: DEFAULT_LAST_INDEX) >= (lazyColumnListState.layoutInfo.totalItemsCount
+                    - DEFAULT_PAGINATION_DECREMENT)
         }
+    }
 
-        LaunchedEffect(key1 = shouldStartPaginate.value) {
-            if (
-                shouldStartPaginate.value &&
-                viewModel.uiState.value.paginationStatus == PaginationStatus.IDLE
+    LaunchedEffect(key1 = shouldStartPaginate.value) {
+        if (
+            shouldStartPaginate.value &&
+            uiState.paginationStatus == PaginationStatus.IDLE
+        )
+            doPagination.invoke()
+    }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TrendingRepositoriesTopAppBar(
+                stringResource(id = R.string.app_name),
+                scrollBehavior
             )
-                viewModel.doPagination()
-        }
+        },
+    ) { paddingValues: PaddingValues ->
 
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                TrendingRepositoriesTopAppBar(
-                    stringResource(id = R.string.app_name),
-                    scrollBehavior
-                )
-            },
-        ) { paddingValues: PaddingValues ->
-
-            LazyColumn(
-                modifier = Modifier.padding(paddingValues),
-                state = lazyColumnListState,
+        LazyColumn(
+            modifier = Modifier.padding(paddingValues),
+            state = lazyColumnListState,
+        ) {
+            items(
+                count = uiState.trendingRepositories.size,
             ) {
-                items(
-                    count = uiState.value.trendingRepositories.size,
-                ) {
-                    val trendingRepository = uiState.value.trendingRepositories[it]
-                    RepositoryCard(
-                        repositoryName = trendingRepository.name,
-                        authorUsername = trendingRepository.ownerUsername,
-                        authorAvatarUrl = trendingRepository.ownerAvatarUrl,
-                        starsCount = trendingRepository.starsCount,
-                        forksCount = trendingRepository.starsCount,
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                    )
-                }
+                val trendingRepository = uiState.trendingRepositories[it]
+                RepositoryCard(
+                    repositoryName = trendingRepository.name,
+                    authorUsername = trendingRepository.ownerUsername,
+                    authorAvatarUrl = trendingRepository.ownerAvatarUrl,
+                    starsCount = trendingRepository.starsCount,
+                    forksCount = trendingRepository.starsCount,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                )
+            }
 
-                item {
-                    when (uiState.value.paginationStatus) {
-                        PaginationStatus.LOADING -> {
-                            ContentLoading()
+            item {
+                when (uiState.paginationStatus) {
+                    PaginationStatus.LOADING -> {
+                        ContentLoading()
+                    }
+                    PaginationStatus.PAGINATING -> {
+                        PaginationLoading()
+                    }
+                    PaginationStatus.PAGINATING_ERROR -> {
+                        PaginationError {
+                            doPagination.invoke()
                         }
-                        PaginationStatus.PAGINATING -> {
-                            PaginationLoading()
-                        }
-                        PaginationStatus.PAGINATING_ERROR -> {
-                            PaginationError {
-                                viewModel.doPagination()
-                            }
-                        }
-                        PaginationStatus.PAGINATION_EXHAUST -> {
-                            PaginationExhaust()
-                        }
-                        else -> {
-                            //do nothing
-                        }
+                    }
+                    PaginationStatus.PAGINATION_EXHAUST -> {
+                        PaginationExhaust()
+                    }
+                    else -> {
+                        //do nothing
                     }
                 }
             }
+        }
 
-            if (uiState.value.paginationStatus == PaginationStatus.ERROR) {
-                ContentError {
-                    viewModel.doPagination()
-                }
+        if (uiState.paginationStatus == PaginationStatus.ERROR) {
+            ContentError {
+                doPagination()
             }
         }
     }
@@ -206,5 +203,28 @@ fun PaginationExhaust() {
 @Preview(showBackground = true)
 @Composable
 fun TrendingRepositoriesScreenPreview() {
-    TrendingRepositoriesScreen()
+    TrendingRepositoriesTheme {
+        TrendingRepositoriesScreen(
+            uiState = TrendingRepositoriesScreenState(
+                trendingRepositories = listOf(
+                    TrendingRepository(
+                        name = "Foo name",
+                        starsCount = 1,
+                        forksCount = 2,
+                        ownerUsername = "Foo username",
+                        ownerAvatarUrl = "",
+                    ),
+                    TrendingRepository(
+                        name = "Foo name 2",
+                        starsCount = 10,
+                        forksCount = 0,
+                        ownerUsername = "Foo username 2",
+                        ownerAvatarUrl = "",
+                    ),
+                ),
+                paginationStatus = PaginationStatus.IDLE,
+            ),
+            doPagination = {}
+        )
+    }
 }
