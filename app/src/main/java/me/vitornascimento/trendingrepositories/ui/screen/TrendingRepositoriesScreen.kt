@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,13 @@ import me.vitornascimento.trendingrepositories.domain.model.TrendingRepository
 import me.vitornascimento.trendingrepositories.ui.component.RepositoryCard
 import me.vitornascimento.trendingrepositories.ui.component.RepositoryCardLoading
 import me.vitornascimento.trendingrepositories.ui.component.TrendingRepositoriesTopAppBar
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.CONTENT_ERROR
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.CONTENT_LOADING
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.PAGINATION_ERROR
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.PAGINATION_EXHAUST
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.PAGINATION_LOADING
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.RETRY_BUTTON
+import me.vitornascimento.trendingrepositories.ui.tag.TrendingRepositoriesScreenTags.TRENDING_REPOSITORIES_LIST
 import me.vitornascimento.trendingrepositories.ui.theme.TrendingRepositoriesTheme
 
 private const val DEFAULT_LAST_INDEX = -2
@@ -76,7 +84,9 @@ fun TrendingRepositoriesScreen(
     ) { paddingValues: PaddingValues ->
 
         LazyColumn(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier
+                .testTag(TRENDING_REPOSITORIES_LIST)
+                .padding(paddingValues),
             state = lazyColumnListState,
         ) {
             items(
@@ -130,6 +140,7 @@ fun ContentLoading() {
     repeat(CONTENT_LOADING_REPEAT_TIMES) {
         RepositoryCardLoading(
             modifier = Modifier
+                .testTag(CONTENT_LOADING)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         )
     }
@@ -140,6 +151,7 @@ fun PaginationLoading() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .testTag(PAGINATION_LOADING)
             .fillMaxWidth()
             .padding(24.dp),
     ) {
@@ -167,7 +179,11 @@ fun GenericError(
             modifier = Modifier
                 .padding(top = 8.dp)
         )
-        Button(onClick = onRetryClick) {
+        Button(
+            onClick = onRetryClick,
+            modifier = Modifier
+                .testTag(RETRY_BUTTON),
+        ) {
             Text(text = stringResource(id = R.string.retry))
         }
     }
@@ -177,6 +193,7 @@ fun GenericError(
 fun ContentError(onRetryClick: () -> Unit) {
     GenericError(
         modifier = Modifier
+            .testTag(CONTENT_ERROR)
             .padding(horizontal = 8.dp)
             .fillMaxSize(),
         fontSize = 18.sp,
@@ -189,6 +206,7 @@ fun PaginationError(onRetryClick: () -> Unit) {
     GenericError(
         fontSize = 18.sp,
         modifier = Modifier
+            .testTag(PAGINATION_ERROR)
             .fillMaxWidth()
             .padding(24.dp),
         onRetryClick = onRetryClick,
@@ -197,7 +215,11 @@ fun PaginationError(onRetryClick: () -> Unit) {
 
 @Composable
 fun PaginationExhaust() {
-    Text(text = "It looks like we get to the end.")
+    Text(
+        text = "It looks like we get to the end.",
+        modifier = Modifier
+            .testTag(PAGINATION_EXHAUST),
+    )
 }
 
 @Preview(showBackground = true)

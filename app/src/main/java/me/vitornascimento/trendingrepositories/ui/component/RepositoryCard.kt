@@ -16,12 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.vitornascimento.trendingrepositories.R
 import me.vitornascimento.trendingrepositories.ui.modifier.shimmer
+import me.vitornascimento.trendingrepositories.ui.tag.RepositoryCardTags.CONTENT
 
 const val PREVIEW_STARS_COUNT = 10
 const val PREVIEW_FORKS_COUNT = 1
@@ -36,7 +38,8 @@ fun RepositoryCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .testTag(CONTENT),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

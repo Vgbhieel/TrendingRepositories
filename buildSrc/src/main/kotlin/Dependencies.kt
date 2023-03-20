@@ -30,6 +30,7 @@ object Dependencies {
             "androidx.test.ext:junit:${Versions.AndroidTest.androidJunitExt}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.AndroidTest.espresso}"
         const val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.Android.compose}"
+        const val mockk = "io.mockk:mockk-android:${Versions.Test.mockk}"
     }
 
     object Debug {
